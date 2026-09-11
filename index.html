@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grupo AAA S.A.S | Propiedades Exclusivas Frente al Mar</title>
+  <meta name="description" content="Inmobiliaria boutique líder en residencias, villas de lujo y penthouses frente al océano. Inversión segura y estilo de vida costero con Grupo AAA S.A.S.">
+
+  <!-- Google Fonts: Poppins (Títulos) & Inter (Cuerpo) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Leaflet.js CSS para Mapa Interactivo Costero -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+
+  <!-- Feather Icons -->
+  <script src="https://unpkg.com/feather-icons"></script>
+
+  <!-- Hoja de Estilos -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="site-body">
+
+  <!-- HEADER PRINCIPAL NAVEGACIÓN -->
+  <header class="site-header" id="site-header">
+    <div class="header-container">
+      <a href="#hero" class="brand-logo" aria-label="Grupo AAA S.A.S Inicio">
+        <div class="logo-mark">
+          <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="34" height="34" rx="10" fill="url(#grad-logo)"/>
+            <path d="M7 23C11 20 15 25 19 22C23 19 25 21 27 21" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M10 18C13 16 16 19 20 17C23 15 25 16 26 16" stroke="#D4A574" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M17 7L24 16H10L17 7Z" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"/>
+            <circle cx="17" cy="11.5" r="1.5" fill="#D4A574"/>
+            <defs>
+              <linearGradient id="grad-logo" x1="0" y1="0" x2="34" y2="34" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#0066CC"/>
+                <stop offset="1" stop-color="#1E90FF"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="logo-text-group">
+          <span class="brand-name">GRUPO AAA <span class="brand-sas">S.A.S</span></span>
+          <span class="brand-tagline">PROPIEDADES FRENTE AL MAR</span>
+        </div>
+      </a>
+
+      <nav class="nav-links" id="nav-links">
+        <a href="#hero" class="nav-link active">Inicio</a>
+        <a href="#propuestas" class="nav-link">Beneficios</a>
+        <a href="#propiedades" class="nav-link">Propiedades</a>
+        <a href="#por-que-nosotros" class="nav-link">¿Por qué AAA?</a>
+        <a href="#mapa-ubicaciones" class="nav-link">Ubicaciones</a>
+        <a href="#testimonios" class="nav-link">Testimonios</a>
+        <a href="#contacto" class="nav-link">Contacto</a>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Sonido Ambiental Marino Opcional -->
+        <button class="sound-toggle-btn" id="sound-toggle-btn" title="Activar sonido ambiental de olas" aria-label="Sonido de mar">
+          <i data-feather="volume-x" id="sound-icon"></i>
+          <span class="sound-label">Olas</span>
+        </button>
+
+        <button class="btn btn-primary" onclick="openContactModal('Asesoría Personalizada Grupo AAA')">
+          <span>Agendar Asesoría</span>
+          <i data-feather="arrow-up-right"></i>
+        </button>
+
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menú principal">
+          <i data-feather="menu"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MENÚ MÓVIL (DRAWER) -->
+  <div class="mobile-drawer" id="mobile-drawer">
+    <div class="mobile-drawer-header">
+      <div class="logo-text-group">
+        <span class="brand-name">GRUPO AAA <span class="brand-sas">S.A.S</span></span>
+        <span class="brand-tagline">PROPIEDADES FRENTE AL MAR</span>
+      </div>
+      <button class="drawer-close" onclick="toggleMobileMenu()">&times;</button>
+    </div>
+    <div class="mobile-drawer-links">
+      <a href="#hero" onclick="toggleMobileMenu()">Inicio</a>
+      <a href="#propuestas" onclick="toggleMobileMenu()">Beneficios</a>
+      <a href="#propiedades" onclick="toggleMobileMenu()">Propiedades</a>
+      <a href="#por-que-nosotros" onclick="toggleMobileMenu()">¿Por qué Grupo AAA?</a>
+      <a href="#mapa-ubicaciones" onclick="toggleMobileMenu()">Ubicaciones</a>
+      <a href="#testimonios" onclick="toggleMobileMenu()">Testimonios</a>
+      <a href="#contacto" onclick="toggleMobileMenu()">Contacto</a>
+    </div>
+    <div class="mobile-drawer-footer">
+      <button class="btn btn-primary w-full" onclick="toggleMobileMenu(); openContactModal('Asesoría Móvil')">
+        <i data-feather="calendar"></i>
+        <span>Agendar Asesoría VIP</span>
+      </button>
+    </div>
+  </div>
+
+  <main>
+    <!-- ====================================================================
+         1. ENCABEZADO - CARRUSEL HERO (MUY LLAMATIVO Y AUTOMÁTICO)
+         ==================================================================== -->
+    <section class="hero-carousel-section" id="hero">
+      <div class="carousel-container" id="hero-carousel">
+        <!-- Diapositiva 1 -->
+        <div class="hero-slide active" data-index="0">
+          <div class="hero-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=2000&q=85');"></div>
+          <div class="hero-overlay"></div>
+        </div>
+        <!-- Diapositiva 2 -->
+        <div class="hero-slide" data-index="1">
+          <div class="hero-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=2000&q=85');"></div>
+          <div class="hero-overlay"></div>
+        </div>
+        <!-- Diapositiva 3 -->
+        <div class="hero-slide" data-index="2">
+          <div class="hero-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=2000&q=85');"></div>
+          <div class="hero-overlay"></div>
+        </div>
+        <!-- Diapositiva 4 -->
+        <div class="hero-slide" data-index="3">
+          <div class="hero-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=85');"></div>
+          <div class="hero-overlay"></div>
+        </div>
+        <!-- Diapositiva 5 -->
+        <div class="hero-slide" data-index="4">
+          <div class="hero-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=85');"></div>
+          <div class="hero-overlay"></div>
+        </div>
+      </div>
+
+      <!-- Contenido Central Hero -->
+      <div class="hero-content-wrapper">
+        <div class="container hero-inner">
+          <div class="hero-badge">
+            <span class="hero-badge-icon">🌊</span>
+            <span>GRUPO AAA S.A.S • EXCLUSIVIDAD COSTERA</span>
+          </div>
+
+          <h1 class="hero-main-title">
+            Vive donde <span class="text-gradient">Sueñas</span>
+          </h1>
+
+          <p class="hero-subtitle">
+            Propiedades premium con vistas al océano, acceso privado a la playa y la máxima plusvalía en los destinos costeros más privilegiados.
+          </p>
+
+          <div class="hero-cta-buttons">
+            <a href="#propiedades" class="btn btn-hero-primary">
+              <span>Explorar Propiedades</span>
+              <i data-feather="compass"></i>
+            </a>
+            <button class="btn btn-hero-secondary" onclick="openContactModal('Consulta Inversión Frente al Mar')">
+              <i data-feather="phone-call"></i>
+              <span>Hablar con un Asesor</span>
+            </button>
+          </div>
+
+          <!-- Métricas Rápidas en Hero -->
+          <div class="hero-stats-ribbon">
+            <div class="hero-stat-item">
+              <span class="stat-number">+120</span>
+              <span class="stat-label">Propiedades Costeras</span>
+            </div>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat-item">
+              <span class="stat-number">100%</span>
+              <span class="stat-label">Frente al Mar</span>
+            </div>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat-item">
+              <span class="stat-number">+15</span>
+              <span class="stat-label">Años de Trayectoria</span>
+            </div>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat-item">
+              <span class="stat-number">$0</span>
+              <span class="stat-label">Costo por Asesoría Inicial</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controles y Paginación del Carrusel -->
+      <button class="carousel-arrow carousel-prev" id="hero-prev" aria-label="Diapositiva anterior">
+        <i data-feather="chevron-left"></i>
+      </button>
+      <button class="carousel-arrow carousel-next" id="hero-next" aria-label="Diapositiva siguiente">
+        <i data-feather="chevron-right"></i>
+      </button>
+
+      <div class="carousel-dots" id="hero-dots">
+        <button class="dot active" data-slide="0" aria-label="Ir a diapositiva 1"></button>
+        <button class="dot" data-slide="1" aria-label="Ir a diapositiva 2"></button>
+        <button class="dot" data-slide="2" aria-label="Ir a diapositiva 3"></button>
+        <button class="dot" data-slide="3" aria-label="Ir a diapositiva 4"></button>
+        <button class="dot" data-slide="4" aria-label="Ir a diapositiva 5"></button>
+      </div>
+
+      <!-- Barra de progreso automático -->
+      <div class="carousel-progress-bar">
+        <div class="carousel-progress-fill" id="carousel-progress-fill"></div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         6. SECCIÓN: BÚSQUEDA Y FILTROS INTUITIVOS (Barra Integrada)
+         ==================================================================== -->
+    <section class="search-filter-section" id="busqueda">
+      <div class="container">
+        <div class="filter-card">
+          <div class="filter-card-header">
+            <div class="filter-heading">
+              <i data-feather="sliders" class="icon-accent"></i>
+              <h3>Encuentra tu Propiedad Frente al Mar</h3>
+            </div>
+            <span class="filter-results-badge" id="results-count">Cargando propiedades...</span>
+          </div>
+
+          <form id="property-filter-form" class="filter-grid" onsubmit="event.preventDefault(); applyFilters();">
+            <!-- Filtro Ubicación -->
+            <div class="filter-field">
+              <label for="filter-location">
+                <i data-feather="map-pin"></i>
+                <span>Ubicación</span>
+              </label>
+              <div class="select-wrapper">
+                <select id="filter-location" onchange="applyFilters()">
+                  <option value="all">Todas las ubicaciones</option>
+                  <option value="Bahía Esmeralda">Bahía Esmeralda</option>
+                  <option value="Costa Dorada">Costa Dorada</option>
+                  <option value="Riviera Marina">Riviera Marina</option>
+                  <option value="Playa Paraíso">Playa Paraíso</option>
+                  <option value="Cayo Coral">Cayo Coral</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Filtro Tipo de Propiedad -->
+            <div class="filter-field">
+              <label for="filter-type">
+                <i data-feather="home"></i>
+                <span>Tipo de Propiedad</span>
+              </label>
+              <div class="select-wrapper">
+                <select id="filter-type" onchange="applyFilters()">
+                  <option value="all">Todos los tipos</option>
+                  <option value="villa">Villa de Playa</option>
+                  <option value="penthouse">Sky Penthouse</option>
+                  <option value="apartamento">Apartamento Costero</option>
+                  <option value="isla">Cayo / Isla Exclusiva</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Filtro Habitaciones -->
+            <div class="filter-field">
+              <label for="filter-beds">
+                <i data-feather="layers"></i>
+                <span>Habitaciones</span>
+              </label>
+              <div class="select-wrapper">
+                <select id="filter-beds" onchange="applyFilters()">
+                  <option value="all">Cualquier cantidad</option>
+                  <option value="2">2+ Habitaciones</option>
+                  <option value="3">3+ Habitaciones</option>
+                  <option value="4">4+ Habitaciones</option>
+                  <option value="5">5+ Habitaciones</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Filtro Rango de Precio -->
+            <div class="filter-field">
+              <label for="filter-price">
+                <i data-feather="dollar-sign"></i>
+                <span>Presupuesto Máximo</span>
+              </label>
+              <div class="select-wrapper">
+                <select id="filter-price" onchange="applyFilters()">
+                  <option value="all">Sin límite de precio</option>
+                  <option value="2000000">Hasta $2,000,000 USD</option>
+                  <option value="4000000">Hasta $4,000,000 USD</option>
+                  <option value="6000000">Hasta $6,000,000 USD</option>
+                  <option value="10000000">Hasta $10,000,000 USD</option>
+                  <option value="20000000">Más de $10,000,000 USD</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Botón Buscar / Limpiar -->
+            <div class="filter-actions">
+              <button type="button" class="btn btn-filter-submit" onclick="applyFilters()">
+                <i data-feather="search"></i>
+                <span>Buscar</span>
+              </button>
+              <button type="button" class="btn btn-filter-reset" onclick="resetFilters()" title="Restablecer filtros">
+                <i data-feather="rotate-ccw"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         2. SECCIÓN: PROPUESTAS DE VALOR (4 TARJETAS CON TEMÁTICA COSTERA)
+         ==================================================================== -->
+    <section class="value-propositions-section" id="propuestas">
+      <div class="container">
+        <div class="section-heading-center">
+          <div class="pill-badge">
+            <i data-feather="anchor"></i>
+            <span>VENTAJAS EXCLUSIVAS</span>
+          </div>
+          <h2 class="section-title">El Privilegio de Vivir Frente al Mar</h2>
+          <p class="section-description">
+            En <strong>Grupo AAA S.A.S</strong> seleccionamos únicamente activos inmobiliarios singulares con acceso directo al océano, arquitectura atemporal y máxima solidez legal.
+          </p>
+        </div>
+
+        <div class="propositions-grid">
+          <!-- Tarjeta 1 -->
+          <div class="proposition-card">
+            <div class="prop-icon-box ocean">
+              <span class="prop-emoji">🌊</span>
+            </div>
+            <h3 class="prop-card-title">Vistas al Océano</h3>
+            <p class="prop-card-desc">
+              Despierta cada mañana contemplando el azul infinito del mar y disfruta de atardeceres dorados desde tu terraza privada.
+            </p>
+            <div class="prop-card-footer">
+              <span class="prop-highlight">100% Panorámicas</span>
+            </div>
+          </div>
+
+          <!-- Tarjeta 2 -->
+          <div class="proposition-card">
+            <div class="prop-icon-box beach">
+              <span class="prop-emoji">🏖️</span>
+            </div>
+            <h3 class="prop-card-title">Estilo de Vida Costero</h3>
+            <p class="prop-card-desc">
+              Acceso directo a playas vírgenes de arena blanca, marinas deportivas, clubes de playa privados y deportes náuticos de primer nivel.
+            </p>
+            <div class="prop-card-footer">
+              <span class="prop-highlight">Acceso Privado</span>
+            </div>
+          </div>
+
+          <!-- Tarjeta 3 -->
+          <div class="proposition-card">
+            <div class="prop-icon-box luxury">
+              <span class="prop-emoji">🏛️</span>
+            </div>
+            <h3 class="prop-card-title">Lujo y Exclusividad</h3>
+            <p class="prop-card-desc">
+              Diseños de autor con materiales nobles, piscinas infinity, ventanales de suelo a techo y acabados de altísima especificación.
+            </p>
+            <div class="prop-card-footer">
+              <span class="prop-highlight">Arquitectura de Autor</span>
+            </div>
+          </div>
+
+          <!-- Tarjeta 4 -->
+          <div class="proposition-card">
+            <div class="prop-icon-box invest">
+              <span class="prop-emoji">✨</span>
+            </div>
+            <h3 class="prop-card-title">Inversión Segura</h3>
+            <p class="prop-card-desc">
+              Valorización garantizada por la escasez de suelo en primera línea de playa, con altos rendimientos en rentas vacacionales premium.
+            </p>
+            <div class="prop-card-footer">
+              <span class="prop-highlight">Plusvalía Acelerada</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         3. SECCIÓN: GALERÍA DE PROPIEDADES DESTACADAS
+         (Grid 3 cols, Micro-carrusel dentro de cada tarjeta, Ficha rápida)
+         ==================================================================== -->
+    <section class="properties-section" id="propiedades">
+      <div class="container">
+        <div class="properties-header-flex">
+          <div>
+            <div class="pill-badge">
+              <i data-feather="compass"></i>
+              <span>PORTAFOLIO SELECCIONADO</span>
+            </div>
+            <h2 class="section-title">Propiedades Destacadas</h2>
+            <p class="section-description">
+              Explora nuestra colección curada de residencias de lujo frente al mar. Navega por las fotos de cada propiedad.
+            </p>
+          </div>
+
+          <!-- Categorías rápidas -->
+          <div class="category-tabs" id="category-tabs">
+            <button class="cat-pill active" onclick="filterCategory('all', this)">Todas</button>
+            <button class="cat-pill" onclick="filterCategory('villa', this)">Villas</button>
+            <button class="cat-pill" onclick="filterCategory('penthouse', this)">Penthouses</button>
+            <button class="cat-pill" onclick="filterCategory('apartamento', this)">Apartamentos</button>
+            <button class="cat-pill" onclick="filterCategory('isla', this)">Islas & Cayos</button>
+          </div>
+        </div>
+
+        <!-- Grid de Propiedades -->
+        <div class="properties-grid-container" id="properties-grid">
+          <!-- Renderizado dinámicamente con JavaScript -->
+        </div>
+
+        <!-- Estado vacío si no hay coincidencias -->
+        <div class="empty-state" id="empty-properties" style="display: none;">
+          <i data-feather="alert-circle" class="empty-icon"></i>
+          <h3>No encontramos propiedades con esos filtros</h3>
+          <p>Prueba ampliando tu rango de precio o seleccionando todas las ubicaciones.</p>
+          <button class="btn btn-primary mt-3" onclick="resetFilters()">Restablecer Filtros</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         4. SECCIÓN: ¿POR QUÉ ELEGIR GRUPO AAA? (Dos Columnas)
+         ==================================================================== -->
+    <section class="why-us-section" id="por-que-nosotros">
+      <div class="container">
+        <div class="why-us-layout">
+          <!-- Columna Izquierda: Texto y Puntos Clave -->
+          <div class="why-us-text-col">
+            <div class="pill-badge">
+              <i data-feather="shield"></i>
+              <span>CONFIANZA Y TRAYECTORIA</span>
+            </div>
+            <h2 class="section-title">¿Por Qué Elegir Grupo AAA S.A.S?</h2>
+            <p class="why-us-lead">
+              Comprar una propiedad frente al mar requiere experiencia técnica, conocimiento exhaustivo de la zona costera y total rigor jurídico. En <strong>Grupo AAA S.A.S</strong> protegemos tu patrimonio de principio a fin.
+            </p>
+
+            <div class="benefits-checklist">
+              <div class="check-item">
+                <div class="check-icon"><i data-feather="check"></i></div>
+                <div class="check-content">
+                  <h4>Títulos de Propiedad 100% Auditados</h4>
+                  <p>Investigación minuciosa de gravámenes, concesiones de zona marítimo-terrestre y licencias medioambientales.</p>
+                </div>
+              </div>
+
+              <div class="check-item">
+                <div class="check-icon"><i data-feather="check"></i></div>
+                <div class="check-content">
+                  <h4>Asesoría Financiera y Estructuración Legal</h4>
+                  <p>Acompañamiento en créditos hipotecarios internacionales, fideicomisos y optimización tributaria.</p>
+                </div>
+              </div>
+
+              <div class="check-item">
+                <div class="check-icon"><i data-feather="check"></i></div>
+                <div class="check-content">
+                  <h4>Acceso a Preventas y Portafolio Off-Market</h4>
+                  <p>Inmuebles exclusivos que no salen al mercado público para preservar la total privacidad del comprador.</p>
+                </div>
+              </div>
+
+              <div class="check-item">
+                <div class="check-icon"><i data-feather="check"></i></div>
+                <div class="check-content">
+                  <h4>Servicio de Concierge y Gestión de Propiedad</h4>
+                  <p>Nos ocupamos del mantenimiento náutico, remodelación y administración de rentas para máxima tranquilidad.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="why-us-action-row">
+              <button class="btn btn-primary" onclick="openContactModal('Consulta con Grupo AAA')">
+                <i data-feather="message-square"></i>
+                <span>Contáctanos Hoy Mismo</span>
+              </button>
+              <div class="why-contact-hint">
+                <i data-feather="clock"></i>
+                <span>Respuesta en menos de 2 horas</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Columna Derecha: Imagen Destacada + Badges de Confianza -->
+          <div class="why-us-visual-col">
+            <div class="image-showcase-frame">
+              <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85" alt="Residencia de lujo Grupo AAA S.A.S" class="why-main-img">
+              
+              <!-- Badge Flotante Superior -->
+              <div class="floating-trust-badge badge-top">
+                <div class="trust-badge-icon">
+                  <i data-feather="award"></i>
+                </div>
+                <div>
+                  <span class="trust-badge-num">+450</span>
+                  <span class="trust-badge-text">Transacciones Exitosas</span>
+                </div>
+              </div>
+
+              <!-- Badge Flotante Inferior -->
+              <div class="floating-trust-badge badge-bottom">
+                <div class="trust-badge-icon gold">
+                  <i data-feather="star"></i>
+                </div>
+                <div>
+                  <span class="trust-badge-num">99.4%</span>
+                  <span class="trust-badge-text">Clientes Satisfechos</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         5. SECCIÓN: TESTIMONIOS DE CLIENTES (Grid 3 Tarjetas)
+         ==================================================================== -->
+    <section class="testimonials-section" id="testimonios">
+      <div class="container">
+        <div class="section-heading-center">
+          <div class="pill-badge">
+            <i data-feather="heart"></i>
+            <span>EXPERIENCIAS REALES</span>
+          </div>
+          <h2 class="section-title">La Opinión de Nuestros Propietarios</h2>
+          <p class="section-description">
+            Familias e inversionistas que confiaron en Grupo AAA S.A.S para hacer realidad su refugio soñado frente al mar.
+          </p>
+        </div>
+
+        <div class="testimonials-grid">
+          <!-- Testimonio 1 -->
+          <div class="testimonial-card">
+            <div class="test-header">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" alt="Dra. Sofía Restrepo" class="client-avatar">
+              <div>
+                <h4 class="client-name">Dra. Sofía Restrepo</h4>
+                <span class="client-detail">Compradora Villa Solsticio • Bahía Esmeralda</span>
+              </div>
+            </div>
+            <div class="star-rating">
+              <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+            </div>
+            <p class="testimonial-quote">
+              "Buscábamos una villa privada con playa para nuestra familia. El equipo de Grupo AAA S.A.S no solo encontró la propiedad perfecta, sino que gestionó toda la auditoría legal con impecable transparencia."
+            </p>
+            <div class="test-verification">
+              <i data-feather="check-circle"></i>
+              <span>Propietaria Verificada</span>
+            </div>
+          </div>
+
+          <!-- Testimonio 2 -->
+          <div class="testimonial-card">
+            <div class="test-header">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80" alt="Carlos Mendoza" class="client-avatar">
+              <div>
+                <h4 class="client-name">Ing. Carlos Mendoza</h4>
+                <span class="client-detail">Inversionista Penthouse • Costa Dorada</span>
+              </div>
+            </div>
+            <div class="star-rating">
+              <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+            </div>
+            <p class="testimonial-quote">
+              "Como inversionista me fijo en los números y la plusvalía. En tan solo 14 meses el valor del penthouse adquirido con Grupo AAA aumentó un 22%. La mejor decisión inmobiliaria que he tomado."
+            </p>
+            <div class="test-verification">
+              <i data-feather="check-circle"></i>
+              <span>Inversionista Verificado</span>
+            </div>
+          </div>
+
+          <!-- Testimonio 3 -->
+          <div class="testimonial-card">
+            <div class="test-header">
+              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80" alt="Valeria & Andrés Duque" class="client-avatar">
+              <div>
+                <h4 class="client-name">Valeria & Andrés Duque</h4>
+                <span class="client-detail">Compradores Apartamento • Riviera Marina</span>
+              </div>
+            </div>
+            <div class="star-rating">
+              <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+            </div>
+            <p class="testimonial-quote">
+              "El trato fue cálido, respetuoso y muy profesional. Nos organizaron un recorrido privado en lancha por toda la costa para entender la orientación del sol y el mar. Superaron toda expectativa."
+            </p>
+            <div class="test-verification">
+              <i data-feather="check-circle"></i>
+              <span>Propietarios Verificados</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         MAPA INTERACTIVO DE UBICACIONES COSTERAS
+         ==================================================================== -->
+    <section class="map-section" id="mapa-ubicaciones">
+      <div class="container">
+        <div class="map-header-flex">
+          <div>
+            <div class="pill-badge">
+              <i data-feather="map"></i>
+              <span>MAPA DE DESTINOS</span>
+            </div>
+            <h2 class="section-title">Ubicaciones Estratégicas Frente al Mar</h2>
+            <p class="section-description">
+              Haz clic en cualquiera de los marcadores costeros para ver la propiedad y consultar disponibilidad inmediata.
+            </p>
+          </div>
+          <div class="map-legend">
+            <span class="legend-item"><span class="legend-dot ocean"></span> Primera Línea de Playa</span>
+            <span class="legend-item"><span class="legend-dot marina"></span> Zona Náutica / Marina</span>
+          </div>
+        </div>
+
+        <div class="map-container-frame">
+          <div id="interactive-map" class="interactive-map-canvas"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         7. SECCIÓN: NEWSLETTER / CONTACTO (Fondo Azul Océano Degradado)
+         ==================================================================== -->
+    <section class="newsletter-section" id="contacto">
+      <div class="newsletter-ocean-bg">
+        <div class="container">
+          <div class="newsletter-box">
+            <div class="newsletter-content">
+              <div class="pill-badge-white">
+                <i data-feather="mail"></i>
+                <span>OPORTUNIDADES OFF-MARKET</span>
+              </div>
+              <h2 class="newsletter-title">Recibe las Mejores Oportunidades Frente al Mar</h2>
+              <p class="newsletter-subtitle">
+                Suscríbete a nuestro boletín mensual confidencial y sé el primero en conocer nuevas preventas y propiedades con alta valorización antes de ser publicadas.
+              </p>
+              
+              <form class="newsletter-form" id="newsletter-form" onsubmit="handleNewsletterSubmit(event)">
+                <div class="input-with-button">
+                  <i data-feather="mail" class="input-icon"></i>
+                  <input type="email" id="news-email" placeholder="Ingresa tu correo electrónico aquí..." required>
+                  <button type="submit" class="btn btn-subscribe">
+                    <span>Suscribirme</span>
+                    <i data-feather="arrow-right"></i>
+                  </button>
+                </div>
+                <p class="newsletter-disclaimer">
+                  <i data-feather="lock"></i>
+                  <span>Recibe ofertas exclusivas en tu inbox. Respetamos tu privacidad, cero spam.</span>
+                </p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ====================================================================
+       8. PIE DE PÁGINA (FOOTER COMPLETO)
+       ==================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-main-grid">
+        <!-- Columna 1: Marca Grupo AAA -->
+        <div class="footer-col brand-col">
+          <a href="#hero" class="brand-logo footer-logo">
+            <div class="logo-mark">
+              <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="34" height="34" rx="10" fill="url(#grad-footer-logo)"/>
+                <path d="M7 23C11 20 15 25 19 22C23 19 25 21 27 21" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"/>
+                <path d="M10 18C13 16 16 19 20 17C23 15 25 16 26 16" stroke="#D4A574" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M17 7L24 16H10L17 7Z" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"/>
+                <circle cx="17" cy="11.5" r="1.5" fill="#D4A574"/>
+                <defs>
+                  <linearGradient id="grad-footer-logo" x1="0" y1="0" x2="34" y2="34" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#0066CC"/>
+                    <stop offset="1" stop-color="#1E90FF"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <div class="logo-text-group">
+              <span class="brand-name">GRUPO AAA <span class="brand-sas">S.A.S</span></span>
+              <span class="brand-tagline">PROPIEDADES FRENTE AL MAR</span>
+            </div>
+          </a>
+          <p class="footer-about">
+            Empresa inmobiliaria especializada en la comercialización, asesoría integral y curaduría de bienes raíces de alto standing frente al mar.
+          </p>
+          <div class="footer-social-links">
+            <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram Grupo AAA"><i data-feather="instagram"></i></a>
+            <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook Grupo AAA"><i data-feather="facebook"></i></a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn Grupo AAA"><i data-feather="linkedin"></i></a>
+            <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube Grupo AAA"><i data-feather="youtube"></i></a>
+            <a href="#" onclick="openWhatsApp('Hola Grupo AAA S.A.S, deseo recibir información de sus propiedades frente al mar.')" aria-label="WhatsApp Grupo AAA"><i data-feather="message-circle"></i></a>
+          </div>
+        </div>
+
+        <!-- Columna 2: Enlaces Rápidos -->
+        <div class="footer-col">
+          <h4 class="footer-heading">Navegación Rápida</h4>
+          <ul class="footer-links-list">
+            <li><a href="#hero">Inicio</a></li>
+            <li><a href="#propiedades">Propiedades en Venta</a></li>
+            <li><a href="#propuestas">Ventajas Costeras</a></li>
+            <li><a href="#por-que-nosotros">¿Por qué Grupo AAA?</a></li>
+            <li><a href="#mapa-ubicaciones">Mapa de Ubicaciones</a></li>
+            <li><a href="#testimonios">Testimonios de Clientes</a></li>
+          </ul>
+        </div>
+
+        <!-- Columna 3: Tipos de Propiedad -->
+        <div class="footer-col">
+          <h4 class="footer-heading">Tipos de Propiedades</h4>
+          <ul class="footer-links-list">
+            <li><a href="#propiedades" onclick="filterCategory('villa')">Villas de Primera Línea</a></li>
+            <li><a href="#propiedades" onclick="filterCategory('penthouse')">Sky Penthouses con Vista al Mar</a></li>
+            <li><a href="#propiedades" onclick="filterCategory('apartamento')">Apartamentos de Lujo</a></li>
+            <li><a href="#propiedades" onclick="filterCategory('isla')">Cayos e Islas Privadas</a></li>
+            <li><a href="#propiedades" onclick="openContactModal('Preventas Exclusivas')">Proyectos en Preventa</a></li>
+          </ul>
+        </div>
+
+        <!-- Columna 4: Información de Contacto -->
+        <div class="footer-col">
+          <h4 class="footer-heading">Contacto y Oficinas</h4>
+          <div class="contact-items">
+            <div class="contact-item">
+              <i data-feather="map-pin"></i>
+              <span>Av. del Océano 450, Marina Privada, Torre AAA Piso 12</span>
+            </div>
+            <div class="contact-item">
+              <i data-feather="phone"></i>
+              <span>+57 (601) 890-2400 / +57 310 987 6543</span>
+            </div>
+            <div class="contact-item">
+              <i data-feather="mail"></i>
+              <span>contacto@grupoaaasas.com</span>
+            </div>
+            <div class="contact-item">
+              <i data-feather="clock"></i>
+              <span>Lunes a Sábado: 8:00 AM - 7:00 PM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barra de Copyright y Legales -->
+      <div class="footer-bottom-bar">
+        <p class="copyright-text">
+          &copy; 2026 Grupo AAA S.A.S. Todos los derechos reservados. Nit: 901.458.789-2
+        </p>
+        <div class="legal-links">
+          <a href="#" onclick="alert('Grupo AAA S.A.S protege sus datos personales de acuerdo con la Ley de Tratamiento de Información.')">Aviso de Privacidad</a>
+          <span class="sep">•</span>
+          <a href="#" onclick="alert('Términos y condiciones comerciales de intermediación inmobiliaria de Grupo AAA S.A.S.')">Términos del Servicio</a>
+          <span class="sep">•</span>
+          <a href="#" onclick="alert('Inmuebles debidamente registrados con estudio de títulos vigente.')">Aviso Legal Costero</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ====================================================================
+       BOTÓN FLOTANTE CONCIERGE WHATSAPP
+       ==================================================================== -->
+  <div class="floating-wa-concierge" onclick="openWhatsApp('Hola Grupo AAA S.A.S, me comunico desde la landing page para solicitar información sobre propiedades frente al mar.')" title="Chatear con un Asesor en WhatsApp">
+    <div class="wa-icon-bubble">
+      <i data-feather="message-circle"></i>
+      <span class="wa-pulse-status"></span>
+    </div>
+    <div class="wa-text-bubble">
+      <span class="wa-title">Asesor Frente al Mar</span>
+      <span class="wa-subtitle">En línea • Responder en 2m</span>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MODAL DE DETALLES Y CONTACTO DE PROPIEDAD
+       ==================================================================== -->
+  <div class="modal-backdrop" id="property-modal">
+    <div class="modal-container">
+      <button class="modal-close-btn" onclick="closePropertyModal()" aria-label="Cerrar modal">&times;</button>
+      
+      <div class="modal-body-scroll" id="modal-content-area">
+        <!-- Renderizado dinámicamente con app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaflet.js para el mapa -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- Lógica de la aplicación -->
+  <script src="app.js"></script>
+</body>
+</html>
