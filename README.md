@@ -19,3 +19,9 @@ Landing page inmobiliaria boutique de alta gama enfocada en residencias, villas 
 
 ## 💻 Visualización Local
 Abre directamente `index.html` en tu navegador web preferido o usa una extensión como Live Server en VS Code.
+
+## 👨‍💻 Autor & Marca de Agua
+- **Autor y Desarrollador**: Andrés Bermúdez
+- **Proyecto**: Inmobiliaria Grupo AAA S.A.S — Propiedades Frente al Mar
+- **Marca de Agua Oficial**: Integrada en la interfaz web y código fuente.
+
